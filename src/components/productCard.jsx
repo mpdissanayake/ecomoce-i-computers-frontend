@@ -4,12 +4,12 @@ export default function ProductCard(props){
 
 
     return(
-<div className ="product-card border w-100">
+<div >
         
-        <img src={props.image} alt={"Picture of a "+props.name}/>
-        <h1>{props.name}</h1>
+         <h1>{props.name}</h1>
+         <img src={props.image} alt={"Picture of a "+props.name}/>       
         <p>LKR {props.price}/-</p>
-        <button>Buy Now</button>
+        <button>ADD TO CART </button>
 
 
 </div>
