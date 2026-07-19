@@ -1,7 +1,11 @@
 
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import ProductCard from './components/productCard'
 import TrendingProducts from './components/trendingProducts'
+import HomePage from './pages/homePage'
+import AdminPage from './pages/adminPage'
+import ProductsPage from './pages/productsPage'
 
 function App() {
   
@@ -9,8 +13,16 @@ function App() {
   return (
     <>
       
-        <div className='w-[700px] h-[700px] border-[6px] flex justify-center items-center  relative' >
+        <div className='w-full main-screen border-[6px] flex-col  bg-primary text-secondary' >
+          <Routes>
+          <Route path='/'element= {<HomePage/>} />
+          <Route path='/admin/*' element={<AdminPage/>}/>
+          <Route path='/products' element={<ProductsPage/>}/>  
 
+          </Routes>
+
+       
+           
           
         
           
