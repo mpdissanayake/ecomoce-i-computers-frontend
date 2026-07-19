@@ -5,13 +5,7 @@ return(
     <div className=" w-full h-screen flex items-center bg-accent " >
         <div className="w-[300px] h-full text-white">
 
-            <a href="/admin/orders" className="block py-2 px-4 hover:bg-gray-700">Orders</a>
-            <a href="/admin/products" className="block py-2 px-4 hover:bg-gray-700">Products</a>
-            <a href="/admin/users" className="block py-2 px-4 hover:bg-gray-700">Users</a>
-            <a href="/admin/reviews" className="block py-2 px-4 hover:bg-gray-700">Reviews</a>
-            
-            
-            <h1 className="text-2xl font-bold mb-4">Using Links Tags 💕</h1>
+         <h1 className="text-2xl font-bold mb-4">Using Links Tags 💕</h1>
 
         <Link to = "/admin/orders" className="block py-2 px-4 hover:bg-gray-700">Orders </Link>
         <Link to = "/admin/products" className="block py-2 px-4 hover:bg-gray-700">Products </Link>
