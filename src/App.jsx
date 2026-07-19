@@ -6,6 +6,7 @@ import TrendingProducts from './components/trendingProducts'
 import HomePage from './pages/homePage'
 import AdminPage from './pages/adminPage'
 import ProductsPage from './pages/productsPage'
+import TestPage from './pages/testPage'
 
 function App() {
   
@@ -17,7 +18,9 @@ function App() {
           <Routes>
           <Route path='/'element= {<HomePage/>} />
           <Route path='/admin/*' element={<AdminPage/>}/>
-          <Route path='/products' element={<ProductsPage/>}/>  
+          <Route path='/products' element={<ProductsPage/>}/>
+          <Route path='/test'element= {<TestPage/>} />
+          
 
           </Routes>
 
