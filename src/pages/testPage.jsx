@@ -7,40 +7,12 @@ export default function TestPage(){
     
 
     return(
-        <div className=" w-full h-screen flex flex-col justify-center items-center bg-primary text-secondary">
+        <div className=" w-full h-screen flex flex-col justify-center items-center">
             
-            <div className="w-[300px] h-[300px] border-[6px] flex justify-center items-center text-5xl">
-            {bulb}
+            <div className="w-[200px] h-[200px] border-4 m-2 p-1"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque deleniti ad consectetur rem. Laborum temporibus doloribus, odio sed sint debitis?</div>
+            <div className="w-[100px] h-[100px] bg-green-900 "> </div>            
             
-            </div>
-           
-            <div className="w-[300px] flex flex-row justify-center gap-1">
-
-            <button onClick={
-                ()=>{
-                       setBulb ("💡")
-                       console.log(bulb)
-                }
-                
-            } className="bg-accent w-[70px] h-[30px] text-white border-primary">Light</button>
             
-            <button onClick={
-                ()=>{
-                  setBulb ("😒")
-                  console.log(bulb)
-                }
-            } className="bg-accent w-[70px] h-[30px] text-white border-primary">Dark</button>
-            <button onClick={
-                ()=>{
-                 setBulb ("😁")
-                 console.log(bulb)
-                }
-            } className="bg-accent w-[70px] h-[30px] text-white border-primary">Bright</button>
-
-           
-            </div>
-            
-
         </div>
     )
 
