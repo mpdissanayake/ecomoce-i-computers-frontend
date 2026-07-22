@@ -1,24 +1,33 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes,useNavigate } from "react-router-dom";
 
 export default function LoginPage(){
 
     const [email,setEmail] = useState("");
     const [password,setPassword ] = useState("");
+    const navigate = useNavigate();
 
     function handleLogin(){
+        console.log("API URL:", import.meta.env.VITE_API_URL);
+
         console.log("Email:",email);
         console.log("password: ",password)
 
-        axios.post("http://localhost:3000/api/users/login",{
+        axios.post(`${import.meta.env.VITE_API_URL}/users/login`,{
             email:email,
             password : password
+
         }).then((response)=>{
+
     console.log("Login Success Full: ", response.data);
-}).catch((error)=>{
+    localStorage.setItem("token", response.data.token);
+     navigate("/");
+
+    }).catch((error)=>{
+
     console.log("Login failed: ", error);
-    console.log("Error details: ", error.response?.data); 
+    console.log("Error details: ", error.response?.data); // backend එකෙන් එන error message එක
 })
     }
 

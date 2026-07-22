@@ -9,6 +9,7 @@ import ProductsPage from './pages/productsPage'
 import TestPage from './pages/testPage'
 import LoginPage from './pages/loginPage'
 
+
 function App() {
   
 
@@ -21,7 +22,8 @@ function App() {
           <Route path='/admin/*' element={<AdminPage/>}/>
           <Route path='/products' element={<ProductsPage/>}/>
           <Route path='/test'element= {<TestPage/>} />
-          <Route path='/Login' element={<LoginPage/>} />
+          <Route path='/login' element={<LoginPage />} />
+          
           
 
           </Routes>
