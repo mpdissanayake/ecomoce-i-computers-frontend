@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, Route, Routes,useNavigate } from "react-router-dom";
 
 export default function LoginPage(){
@@ -22,12 +23,27 @@ export default function LoginPage(){
 
     console.log("Login Success Full: ", response.data);
     localStorage.setItem("token", response.data.token);
-     navigate("/");
+
+    if(response.data.isAdmin){
+
+        //redirect :to admin dashbord
+        //window.location.href="/admin"
+        //alert("Login Successfull")//add alart to browser
+        toast.success("Loging Successful");
+       navigate("/admin");  
+
+    }else{
+        //redirect to homepage
+        //window.location.href="/"
+        navigate("/");
+    }
+     
 
     }).catch((error)=>{
 
     console.log("Login failed: ", error);
     console.log("Error details: ", error.response?.data); // backend එකෙන් එන error message එක
+    toast.error(error.response.data.message)
 })
     }
 
