@@ -19,8 +19,8 @@ export default function uplordMedia(file){
             upsert: false,
             cacheControl : "3600",
         })
-        .then((response)=>{
-            console.log(response)
+        .then(()=>{
+           
 
             const {data} =supabase.storage.from("project_images")
             .getPublicUrl(fileNamee);
