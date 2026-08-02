@@ -1,24 +1,34 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 import uploadMedia from "../utils/mediaUpload";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function AdminAddProductPage(){
-const [productId, setProductId] = useState("");
-const [name ,setName] = useState("");
-const [altNames,setAltNames] = useState("");
-const [price,setPrice] = useState("");
-const [labellPrice,setLabelPrice] = useState("");
-const [description,setDescription] = useState("");
-const [images,setImages] = useState([]);
-const [brand,setBrand] = useState("");
-const [model,setModel] = useState("");
-const [category,setCategory] = useState("Laptop");
-const [isAvallable,setIsAvallable] = useState(true);
-const [stock,setStock] = useState(0);
 
+export default function AdminEditProductPage(){
+const location=useLocation();
+const product = location.state || {}; 
+const [productId, setProductId] = useState(product?.productID || "");
+const [name ,setName] = useState(product?.name || "");
+//const [altNames,setAltNames] = useState(product?.altNames && Array.isArray(product.altNames) ? product.altNames.join(",") : "");
+const [altNames, setAltNames] = useState(product?.allNames && Array.isArray(product.allNames)? product.allNames.join(", ") : "");
+const [price,setPrice] = useState(product?.price || "");
+const [labellPrice,setLabelPrice] = useState(product?.labellPrice||"");
+const [description,setDescription] = useState(product?.description||"");
+const [images,setImages] = useState(product?.images||[]);
+const [brand,setBrand] = useState(product?.brand||"");
+const [model,setModel] = useState(product?.model||"");
+const [category,setCategory] = useState(product?.category||"Laptop");
+const [isAvallable,setIsAvallable] = useState(product?.isAvallable || false);
+const [stock,setStock] = useState(product?.stock || 0);
 const navigate = useNavigate(); //ehetameheta smoothly yanana danne
+
+
+//const [isLoading, setIsLoading] = useState(false);
+ 
+ //useEffect(()=>{
+   // console.log("Loded Product Data From State",product)
+ //})
 
 async function handleSave(){
     try{
@@ -29,6 +39,7 @@ async function handleSave(){
             return;
         }
         const mediaUploadPromises=[]
+        
         for(let i=0; i<images.length;i++){
             mediaUploadPromises.push(uploadMedia(images[i]))
         }
@@ -38,9 +49,9 @@ async function handleSave(){
         const altNmesArray = altNames.split(",").filter(name => name.trim() !== "");
 
         const productData={
-            productID: productId,  // ✅ productID (ID දෙකම ලොකුයි)
+            productID: productId,  
             name :name,
-            allNames: altNmesArray,  // ✅ allNames
+            allNames: altNmesArray,  
             price : price,
             labelledPrice: labellPrice,
             description : description,
@@ -53,7 +64,7 @@ async function handleSave(){
 
         }
 
-        const response =await axios.post(import.meta.env.VITE_API_URL+"/products",productData,
+        const response =await axios.put(import.meta.env.VITE_API_URL+"/products",productData,
             {
             headers :{
                // "Authorization" : "Bearer"+token👌
@@ -67,9 +78,9 @@ async function handleSave(){
 
     }catch(error)
     {
-        console.log("Full Error:", error);  // ✅ මෙය add කරන්න
-        console.log("Error Response:", error.response);  // ✅ මෙය add කරන්න
-        console.log("Error Data:", error.response?.data);  // ✅ මෙය add කරන්න
+        console.log("Full Error:", error);  
+        console.log("Error Response:", error.response);  
+        console.log("Error Data:", error.response?.data);  
         toast.error(error?.response?.data?.message || "Faild to add Product .Please try again")
 
 
@@ -82,7 +93,7 @@ async function handleSave(){
     return(
       <div className="w-full h-full flex flex-col items-center p-4 overflow-y-scroll">
         <div className="sticky top-0 w-full h-[100px] rounded-lg bg-accent text-white flex items-center justify-between shadow-2xl"> 
-            <h1 className="text-2xl font-semibold p-3 "> Add Product </h1>
+            <h1 className="text-2xl font-semibold p-3 "> Edit Product </h1>
 
             
             <div className="h-full flex justify-center items-center p-5"> 

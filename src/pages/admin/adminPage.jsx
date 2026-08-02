@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from "react-router-dom";
 import AdminProductsPage from "./adminProductsPage";
 import AdminAddProductPage from "./adminAddProduct";
+import AdminEditProductPage from "./adminEditProductPage";
 
 
 
@@ -24,6 +25,7 @@ return(
             <Route path="/" element ={<h1>Oeders Dashboard</h1>}/>
             <Route path="/products" element={<AdminProductsPage/>}/>
             <Route path="/add-product" element={<AdminAddProductPage/>}/>
+            <Route path="/edit-product" element={<AdminEditProductPage/>}/>
             <Route path="/users" element ={<h1>users Dashboard</h1>}/>
             <Route path="/reviews" element ={<h1>Reviews Dashboard</h1>}/>
             <Route path="/orders" element ={<h1>Orders Dashboard</h1>}/>
