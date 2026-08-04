@@ -2,180 +2,287 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { TbTrash } from "react-icons/tb";
 import { BiEdit } from "react-icons/bi";
-import toast from "react-hot-toast";
 import LoadingAnimation from "../../components/lodingAnimation";
 import ProductDeleteModal from "../../components/productDeleteModal";
 
 export default function AdminProductsPage() {
 
     const [products, setProducts] = useState([]);
-    const[isProductsAreloded,setIsProductsAreLoaded] = useState(false);
-    
+    const [isProductsAreloded, setIsProductsAreLoaded] = useState(false);
+
     useEffect(() => {
 
+        if (!isProductsAreloded) {
 
-      if(!isProductsAreloded){const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
-        axios.get(import.meta.env.VITE_API_URL + "/products", {
-            headers: {
-                "Authorization": "Bearer " + token
-            }
-        }).then((response) => {
-            setProducts(response.data);
-            setIsProductsAreLoaded(true);
+            axios.get(import.meta.env.VITE_API_URL + "/products", {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }).then((response) => {
 
+                setProducts(response.data);
+                setIsProductsAreLoaded(true);
 
-        }).catch(
-          (error) => {
-            console.log(error);
-            
-        });
-      }
+            }).catch((error) => {
+                console.log(error);
+            });
 
-        
+        }
+
     }, [isProductsAreloded]);
 
+
+
     return (
-        <div className="w-full h-full flex flex-col items-center overflow-y-scroll bg-primary p-6">
+
+        <div className="w-full h-full overflow-y-auto bg-gray-100 p-8 rounded-lg">
 
             {/* Header */}
-            <div className="sticky top-0 w-full bg-accent rounded-xl px-6 py-4 flex items-center justify-between text-white">
-                <h1 className="text-2xl font-semibold text-white">Products</h1>
-                
+
+            <div className="flex justify-between items-center bg-white rounded-2xl shadow-sm border border-gray-200 px-8 py-6 mb-8">
+
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-800">
+                        Products
+                    </h1>
+
+                    <p className="text-gray-500 mt-1">
+                        Manage your products easily.
+                    </p>
+                </div>
+
+                <div className="bg-indigo-50 px-5 py-2 rounded-xl">
+                    <span className="font-semibold text-indigo-600">
+                        {products.length} Products
+                    </span>
+                </div>
+
             </div>
 
+
+
             {/* Table */}
-            {<div className="mt-5 w-full rounded-lg text-secondary">
+
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+
                 <div className="overflow-x-auto">
-                  {isProductsAreloded?
-                  <table className="w-full text-secondary">
-                      <thead className="bg-accent/45 text-white ">
-                          <tr>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Image</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Product ID</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Name</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Price</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Labelled Price</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Brand</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Model</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Category</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Availability</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Stock</th>
-                              <th className="text-center p-4 text-sm font-semibold text-secondary">Actions</th>
-                          </tr>
-                      </thead>
 
-                      <tbody>
-                          {
-                              products.map((item) => {
-                                  return (
-                                      <tr className="odd:bg-gray-600 even:bg-primary odd:text-white border-t-4 border-primary hover:bg-accent/45 "
-                                          key={item.productID} 
-                                          
-                                      >
-                                          <td className="p-3 text-center">
-                                              <img 
-                                                  src={item.images?.[0]} 
-                                                  alt={item.name} 
-                                                  className="w-16 h-16 object-cover   border-gray-200 rounded-full"
-                                              />
-                                          </td>
-                                          <td className="text-center text-wrap p-3 ">
-                                              {item.productID}
-                                          </td>
-                                          <td className="text-center text-wrap p-3">
-                                              {item.name}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm font-semibold">
-                                              Rs. {item.price}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm">
-                                              Rs. {item.labelledPrice}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm">
-                                              {item.brand}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm">
-                                              {item.model}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm">
-                                              
-                                                  {item.category}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm">
-                                              {item.isAvallable ? (
-                                                  <span className="px-2.5 py-0.5 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                                                      Available
-                                                  </span>
-                                              ) : (
-                                                  <span className="px-2.5 py-0.5 bg-red-100 text-red-700 rounded-full text-xs font-medium">
-                                                      Out of Stock
-                                                  </span>
-                                              )}
-                                          </td>
-                                          <td className="text-center text-wrap p-3 text-sm font-medium">
-                                              {item.stock}
-                                          </td>
+                    {
+                        isProductsAreloded ?
 
-                                          <td className="text-center text-wrap p-3 text-sm font-medium">
-                                            <ProductDeleteModal product={item} refresh={
-                                              ()=>{
-                                                setIsProductsAreLoaded(false);
-                                              }
-                                            } />
-                                            
-                                            {/*product eka delete karana button eka add kirima call to backend und*/}
-                                              {/*<TbTrash className="text-2xl text-red-500 cursor-pointer hover:text-red-700"
-                                              onClick={()=>{
-                                              toast.success(item.productID)
-                                              const token = localStorage.getItem("token");
-                                              axios.delete(import.meta.env.VITE_API_URL+"/products/"+item.productID,{
-                                                headers :{
-                                                  "Authorization": "Bearer " + token
-                                                }
-                                              }).then(()=>{
-                                              toast.success(item.productID +"Product Deleted Successfully ! ")
-                                              setProductsAreLoaded(false);
+                            <table className="min-w-full">
 
-                                              }
-                                              ).catch((error)=>{
-                                              toast.error("Error deleting product")
-                                              console.log( error);
-                                              }
-                                              )
-                                            }}
-                                              />*/}
+                                <thead className="bg-gray-100 sticky top-0">
 
-                                            <Link  to="/admin/edit-product" 
-                                                state={item}
-                                            >
-                                                <BiEdit className="text-2xl text-blue-500 cursor-pointer hover:text-blue-700" />
-                                            </Link>
+                                    <tr className="text-gray-700">
 
-                                          </td>
+                                        <th className="px-6 py-4 text-sm font-semibold text-left">
+                                            Image
+                                        </th>
 
-                                      </tr>
-                                  );
-                              })
-                          }
-                      </tbody>
-                  </table>
-                  :
-                  <LoadingAnimation />
-                  }
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Product ID
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold text-left">
+                                            Name
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Price
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Label Price
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Brand
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Model
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Category
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Availability
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Stock
+                                        </th>
+
+                                        <th className="px-6 py-4 text-sm font-semibold">
+                                            Actions
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {
+                                        products.map((item) => {
+
+                                            return (
+
+                                                <tr
+                                                    key={item.productID}
+                                                    className="border-t hover:bg-indigo-50 transition duration-200"
+                                                >
+
+                                                    <td className="px-6 py-4">
+
+                                                        <img
+                                                            src={item.images?.[0]}
+                                                            alt={item.name}
+                                                            className="w-16 h-16 rounded-xl object-cover border"
+                                                        />
+
+                                                    </td>
+
+                                                    <td className="text-center font-medium text-gray-700">
+                                                        {item.productID}
+                                                    </td>
+
+                                                    <td className="px-6 py-4">
+
+                                                        <div className="font-semibold text-gray-800">
+                                                            {item.name}
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td className="text-center font-semibold text-green-600">
+                                                        Rs. {item.price}
+                                                    </td>
+
+                                                    <td className="text-center text-gray-600">
+                                                        Rs. {item.labelledPrice}
+                                                    </td>
+
+                                                    <td className="text-center">
+                                                        {item.brand}
+                                                    </td>
+
+                                                    <td className="text-center">
+                                                        {item.model}
+                                                    </td>
+
+                                                    <td className="text-center">
+
+                                                        <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+
+                                                            {item.category}
+
+                                                        </span>
+
+                                                    </td>
+
+                                                    <td className="text-center">
+
+                                                        {
+                                                            item.isAvallable ?
+
+                                                                <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
+
+                                                                    Available
+
+                                                                </span>
+
+                                                                :
+
+                                                                <span className="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
+
+                                                                    Out of Stock
+
+                                                                </span>
+                                                        }
+
+                                                    </td>
+
+                                                    <td className="text-center font-semibold">
+
+                                                        {item.stock}
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div className="flex items-center justify-center gap-3">
+
+                                                            <ProductDeleteModal
+                                                                product={item}
+                                                                refresh={() => {
+                                                                    setIsProductsAreLoaded(false);
+                                                                }}
+                                                            />
+
+                                                            <Link
+                                                                to="/admin/edit-product"
+                                                                state={item}
+                                                                className="w-10 h-10 rounded-lg bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition"
+                                                            >
+
+                                                                <BiEdit className="text-blue-600 text-xl" />
+
+                                                            </Link>
+
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            )
+
+                                        })
+                                    }
+
+                                </tbody>
+
+                            </table>
+
+                            :
+
+                            <div className="py-20 flex justify-center">
+
+                                <LoadingAnimation />
+
+                            </div>
+
+                    }
+
                 </div>
-            </div>}
 
-            {/* Add Product Button */}
-            <Link 
-                to="/admin/add-product" 
-                className="fixed bottom-8 right-8 w-[60px] h-[60px] bg-accent flex items-center justify-center text-white text-3xl rounded-full shadow-xl hover:scale-110 transition-all duration-300"
+            </div>
+
+
+
+            {/* Floating Button */}
+
+            <Link
+
+                to="/admin/add-product"
+
+                className="fixed bottom-8 right-8 w-16 h-16 rounded-2xl bg-indigo-600 hover:bg-indigo-700 shadow-xl flex justify-center items-center text-white text-2xl transition-all duration-300 hover:scale-110"
+
             >
+
                 <FaPlus />
+
             </Link>
 
         </div>
+
     );
+
 }

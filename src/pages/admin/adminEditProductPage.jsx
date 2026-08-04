@@ -21,6 +21,7 @@ const [model,setModel] = useState(product?.model||"");
 const [category,setCategory] = useState(product?.category||"Laptop");
 const [isAvallable,setIsAvallable] = useState(product?.isAvallable || false);
 const [stock,setStock] = useState(product?.stock || 0);
+const [isUpdating, setIsUpdating] = useState(false); // update wenagamanda thiyenne kiyala balanda
 const navigate = useNavigate(); //ehetameheta smoothly yanana danne
 
 
@@ -30,8 +31,9 @@ const navigate = useNavigate(); //ehetameheta smoothly yanana danne
    // console.log("Loded Product Data From State",product)
  //})
 
-async function handleSave(){
+async function handleUpdate(){
     try{
+        setIsUpdating(true); // update wenagamanda thiyenne kiyala kiyanda
         const token =localStorage.getItem("token");
         if(token== null){
             toast.error("you Must be logged in to perform this action");
@@ -46,10 +48,11 @@ async function handleSave(){
 
         const urls= await Promise.all(mediaUploadPromises);//okkoma ganna eka
         //promise.rase -ikamanata resalat ganna eka
+
         const altNmesArray = altNames.split(",").filter(name => name.trim() !== "");
 
         const productData={
-            productID: productId,  
+            //productID: productId,  
             name :name,
             allNames: altNmesArray,  
             price : price,
@@ -64,7 +67,11 @@ async function handleSave(){
 
         }
 
-        const response =await axios.put(import.meta.env.VITE_API_URL+"/products",productData,
+        if(urls.length == 0){
+            productData.images = product.images;
+        }
+
+        const response =await axios.put(import.meta.env.VITE_API_URL+"/products/"+productId,productData,
             {
             headers :{
                // "Authorization" : "Bearer"+token👌
@@ -72,16 +79,17 @@ async function handleSave(){
             }
         })
 
-        toast.success("Products Added Successfully ! ");
+        toast.success("Products Updated Successfully ! ");
         navigate("/admin/products");
         
 
     }catch(error)
     {
-        console.log("Full Error:", error);  
+        setIsUpdating(false); // update wenagaman eka fail unama
+        console.log("Error Updating Product:", error);  
         console.log("Error Response:", error.response);  
         console.log("Error Data:", error.response?.data);  
-        toast.error(error?.response?.data?.message || "Faild to add Product .Please try again")
+        toast.error(error?.response?.data?.message || "Faild to Update Product.Please try again")
 
 
     }
@@ -98,7 +106,9 @@ async function handleSave(){
             
             <div className="h-full flex justify-center items-center p-5"> 
             
-            <button onClick={handleSave} className="px-4 py-2 bg-green-500 text-white rounded-lg"> Save </button>
+            <button onClick={handleUpdate} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" disabled={isUpdating}>
+                {isUpdating ? "Updating..." : "Update"}
+            </button>
             <button className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg">Cancel </button>
 
             
@@ -112,6 +122,7 @@ async function handleSave(){
              <input  className="border border-gray-300 rounded-md p-2 w-full"
              value={productId}
              //onChange={(e)=setProductId(e.target.value)}
+             disabled={true}
              onChange={(e) => setProductId(e.target.value)}
              />
         </div>

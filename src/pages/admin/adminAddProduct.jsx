@@ -17,11 +17,14 @@ const [model,setModel] = useState("");
 const [category,setCategory] = useState("Laptop");
 const [isAvallable,setIsAvallable] = useState(true);
 const [stock,setStock] = useState(0);
+const [isSaving,setIsSaving] = useState(false);  
 
 const navigate = useNavigate(); //ehetameheta smoothly yanana danne
 
 async function handleSave(){
+
     try{
+        setIsSaving(true);
         const token =localStorage.getItem("token");
         if(token== null){
             toast.error("you Must be logged in to perform this action");
@@ -67,6 +70,7 @@ async function handleSave(){
 
     }catch(error)
     {
+        setIsSaving(false);
         console.log("Full Error:", error);  // ✅ මෙය add කරන්න
         console.log("Error Response:", error.response);  // ✅ මෙය add කරන්න
         console.log("Error Data:", error.response?.data);  // ✅ මෙය add කරන්න
@@ -87,7 +91,7 @@ async function handleSave(){
             
             <div className="h-full flex justify-center items-center p-5"> 
             
-            <button onClick={handleSave} className="px-4 py-2 bg-green-500 text-white rounded-lg"> Save </button>
+            <button onClick={handleSave} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" disabled={isSaving}> {isSaving? "Saving..." : "Save"  } </button>
             <button className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg">Cancel </button>
 
             

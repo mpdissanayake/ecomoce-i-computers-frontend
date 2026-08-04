@@ -20,9 +20,8 @@ function App() {
         <div className='w-full main-screen border-[6px] flex-col  bg-primary text-secondary' >
           <Toaster position='top-center'/>
           <Routes>
-          <Route path='/'element= {<HomePage/>} />
+          <Route path='/*'element= {<HomePage/>} />
           <Route path='/admin/*' element={<AdminPage/>}/>
-          <Route path='/products' element={<ProductsPage/>}/>
           <Route path='/test'element= {<TestPage/>} />
           <Route path='/login' element={<LoginPage />} />
           
