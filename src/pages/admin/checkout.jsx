@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { addToCart, getCart, getCartTotal } from "../utils/cart.js"
 import getFormattedPrice from "../utils/price-format"
-import { Link } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import CreateOrderModel from "./createOrderModel.jsx"
 
-export default function CartPage(){
+export default function CheckoutPage(){
+    const location = useLocation()
 
-   const [cart , setCart] =useState(getCart())
+   const [cart , setCart] =useState(location.state)
 
     return(
         <div className="w-full min-h-screen flex flex-col p-5  pb-20 items-center gap-4  ">
@@ -59,7 +61,7 @@ export default function CartPage(){
                 )
             }
             <div className="bg-white w-[500px] border rounded-t-lg shadow-2xl flex p-2 items-center justify-between fixed bottom-0" >
-                <Link to ="/checkout" state={cart} className=" bg-accent text-white px-4 py-2 rounded-lg font-semibold "> Checkout</Link>
+                <CreateOrderModel cart = {cart}/>
                 <p className=" text-xl font-bold ml-4 ">Total : {getFormattedPrice(getCartTotal(cart))} </p>               
             </div>
             

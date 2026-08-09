@@ -3,6 +3,7 @@ import Header from "../../components/header"
 import ProductsPage from "./productsPage"
 import ProductOverviewPage from "./productOverviewPage"
 import CartPage from "./cart"
+import CheckoutPage from "./checkout"
 
 export default function HomePage(){
 return(
@@ -13,8 +14,10 @@ return(
         <Route path="/" element={<h1>Home Page</h1>}/>
         <Route path="/products" element={<ProductsPage/>}/>
         <Route path="/contact-us" element={<h1>Contact Us Page</h1>}/>
-        <Route path="/overview/:productID" element={<ProductOverviewPage/>} /> 
+        <Route path="/overview/:productID" element={<ProductOverviewPage/>} />
          <Route path="/cart" element={<CartPage/>} /> 
+         <Route path="/checkout" element={<CheckoutPage/>} /> 
+
 
         </Routes>
 

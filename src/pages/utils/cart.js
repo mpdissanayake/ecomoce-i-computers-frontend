@@ -68,3 +68,15 @@ export function addToCart(product ,quantity){
     localStorage.setItem("cart" , cartstring)
 
 }
+export function getCartTotal(cart){
+    let total=0;
+
+    for (let i= 0; i< cart.length; i++){
+
+       // total=total+cart[i].product.price*cart[i].quantity
+       total +=cart[i].product.price * cart[i].quantity
+
+    }
+    return total;
+
+}
