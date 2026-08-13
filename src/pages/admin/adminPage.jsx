@@ -2,6 +2,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import AdminProductsPage from "./adminProductsPage";
 import AdminAddProductPage from "./adminAddProduct";
 import AdminEditProductPage from "./adminEditProductPage";
+import AdminOrdersPage from "./adminOrdersPage";
 
 
 
@@ -22,7 +23,7 @@ return(
         </div>
         <div className="w-[calc(100%-300px)] h-full bg-primary border-[10px] border-accent rounded-2xl">
            <Routes>
-            <Route path="/" element ={<h1>Oeders Dashboard</h1>}/>
+            <Route path="/" element ={<AdminOrdersPage/>}/>
             <Route path="/products" element={<AdminProductsPage/>}/>
             <Route path="/add-product" element={<AdminAddProductPage/>}/>
             <Route path="/edit-product" element={<AdminEditProductPage/>}/>
