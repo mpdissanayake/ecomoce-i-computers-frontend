@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       
-        <div className='w-full main-screen border-[6px] flex-col  bg-primary text-secondary' >
+        <div className='w-full min-h-screen border-[6px] flex-col  bg-primary text-secondary' >
           <Toaster position='top-center'/>
           <Routes>
           <Route path='/*'element= {<HomePage/>} />

@@ -6,7 +6,7 @@ let key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
 
 const supabase=createClient(url, key);
 
-export default function uplordMedia(file){
+export default function uploadMedia(file){
 
     return new Promise(
         (resolve,reject)=>{

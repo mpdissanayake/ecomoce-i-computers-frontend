@@ -1,51 +1,21 @@
-import axios from "axios";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa6";
 import { TbTrash } from "react-icons/tb";
 import getFormattedPrice from "../pages/utils/price-format";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdHome } from "react-icons/md";
-import api from "../pages/utils/api.js";
 
 
-export default function OrderDitailsModal(props ){
+
+export default function CustomerOrderDetailsModal(props ){
     
     const [isModalOpen , setIsModalOpen] = useState(false)
-    const [notes , setNotes] = useState(props.order.notes)
-    const [status , setStatus] = useState(props.order.status)
-    const [isUpdating , setIsUpdating] = useState(false)
+    
     
     const order = props.order;
-    const refresh = props.refresh;
+   
 
-    async function updateOrder(){
-        setIsUpdating(true)
-        const token = localStorage.getItem("token");
-
-        try{
-            await api.put("/orders/" + order.orderId,{
-                notes : notes,
-                status : status
-            },{
-                headers: {
-                     Authorization: `Bearer ${token}`
-                }
-                
-
-            })
-            toast.success( "order Updated successfully")
-            refresh()
-            setIsUpdating(false)
-
-        }catch(error){
-            console.log(error)
-            toast.error("Failed To Update Order")
-            setIsUpdating(false)
-        }
-    }
-
-        
+            
     return (
         <>
         
@@ -132,26 +102,7 @@ export default function OrderDitailsModal(props ){
                  <div className="w-full flex justify-end items-center bg-gray-100 rounded-lg p-4 m-2">
                     <span className="text-lg font-semibold text-gray-800 ">Total : {getFormattedPrice(order.total)} </span>
                 </div> 
-                <div className="w-full flex justify-between items-center bg-gray-100 rounded-lg p-4 m-2">
-                    
-                    <div className=" w-1/2 flex flex-col  ">
-                    <label className="text-gray-800 font-semibold mb-1 "> Edit Notes : </label>
-                        <textarea type="text" value={notes} className="px-3 py-1 w-full bg-gray-200 text-gray-700 rounded " onChange={(e)=>setNotes(e.target.value)} />
-                    </div>
-                           <div className="flex flex-col ">
-                            <label className=" text-gray-800 font-semibold mb-1"> Update Status</label>
-                            <select value={status} className=" px-3 py-1 bg-gray-200 text-gray-700 rounded" onChange={(e) => setStatus(e.target.value)}>
-                                <option value="Pending">Pending</option>
-                                <option value="Processing">Processing</option><option value="pending">Pending</option><option value="pending">Pending</option>
-                                <option value="Shipped">Shipped</option>
-                                <option value="Delivered">Delivered</option>
-                            </select>
-                            </div>
-                        <button className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 " onClick={updateOrder}disabled={isUpdating} >{/*onClick={()=>refresh()}*/}
-                            {isUpdating? "wait..": "Update"}
-                            </button>  
-                    
-                </div>  
+                  
                                   
                 </div>
             </div>
