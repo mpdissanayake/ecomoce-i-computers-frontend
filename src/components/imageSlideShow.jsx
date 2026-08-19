@@ -4,7 +4,7 @@ export default function ImagesSlideShow(props){
     const[asctiveImage ,setActiveImage]= useState(0)
     const  images =props.images || []
     return(
-        <div className="w-[700px] h-[900px] flex flex-col">
+        <div className="w-[700px] lg:h-[900px] flex flex-col">
             <img className=" w-full aspect-square object-cover" src={images[asctiveImage]}/>
             <div className=" h-[100px] w-full   flex items-center justify-center gap-4">
                 {

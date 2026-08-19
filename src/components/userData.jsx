@@ -32,12 +32,12 @@ export default function UserData(){
     ,[])
     
     return(
-        <div>
+        <>
             {
                 user?(
-                <div className="flex "> 
-                <img src={user.image} className="w-[30px] aspect-square"/>
-                <select className="text-white text-center"
+                <div className="flex h-full aspect-square lg:w-[150px] relative rounded-lg "> 
+                <img src={user.image} className="w-full lg:w-auto aspect-square absolute lg:static rounded-lg"/>
+                <select className=" absolute lg:static text-transparent lg:text-white absolute text-center w-full h-full"
                 onChange={(e)=>{
 
                   if (e.target.value === "option2"){
@@ -55,10 +55,10 @@ export default function UserData(){
                     defaultValue="option1"
                 >
 
-                <option value="option1" className="bg-secondary">{user.firstName} </option>
-                <option value="option2" className="bg-secondary">Settings</option>
-                <option value="option3" className="bg-secondary">My Orders </option>
-                <option value="option4" className="bg-secondary">Logout</option>
+                <option value="option1" className="bg-secondary text-white">{user.firstName} </option>
+                <option value="option2" className="bg-secondary  text-white">Settings</option>
+                <option value="option3" className="bg-secondary text-white">My Orders </option>
+                <option value="option4" className="bg-secondary text-white">Logout</option>
                 
                 </select>  
                 
@@ -66,13 +66,13 @@ export default function UserData(){
 
                 ):(
                 <>
-                <Link to="/login" className=" text-white text-lg font-semibold mr-4 ">LOGIN</Link>
-                 <Link to="/register" className=" text-white text-lg font-semibold mr-4 ">Register</Link>
+                <Link to="/login" className="h-full aspect-square flex justify-center rounded-lg text-accent shadow-2xl shadow-accent text-3xl">LOGIN</Link>
+                 <Link to="/register" className=" text-white text-lg font-semibold hidden lg:block mr-4 ">Register</Link>
                 
                 </>
             )}
 
-        </div>
+        </>
        
     )
 

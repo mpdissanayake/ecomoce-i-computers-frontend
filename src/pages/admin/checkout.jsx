@@ -10,14 +10,15 @@ export default function CheckoutPage(){
    const [cart , setCart] =useState(location.state)
 
     return(
-        <div className="w-full min-h-screen flex flex-col p-5  pb-20 items-center gap-4  ">
+        <div className="w-full min-h-screen flex flex-col p-5  pb-[150px] lg:pb-20 items-center gap-4  ">
             {
                 cart.map(
                     (item)=>{
                         return(
-                            <div key={item.product.productID} className="bg-white w-[500px] h-[150px] rounded-lg shadow-2xl flex p-2 items-center relative " >
+                            <div key={item.product.productID} className="bg-white w-full lg:w-[500px] lg:h-[150px] rounded-lg shadow-2xl flex flex-col lg:flex-row p-2 lg:items-center relative " >
                                 <img className="w-[100px] h-[100px] object-cover rounded-l-lg" src={item.product.image}/>
-                                <div className="h-full w-[400px] ">
+                                
+                                <div className="h-full w-full lg:w-[400px] ">
                                     <h1 className="text-lg font-semibold ">{item.product.name}</h1>
                                     <p className="text-sm text-gray-500 ">{item.product.productID} </p>
                                     {
@@ -60,7 +61,7 @@ export default function CheckoutPage(){
                     }
                 )
             }
-            <div className="bg-white w-[500px] border rounded-t-lg shadow-2xl flex p-2 items-center justify-between fixed bottom-0" >
+            <div className="bg-white w-full lg:w-[500px] border rounded-t-lg shadow-2xl flex p-2 items-center justify-between fixed bottom-[82px] lg:bottom-0 " >
                 <CreateOrderModel cart = {cart}/>
                 <p className=" text-xl font-bold ml-4 ">Total : {getFormattedPrice(getCartTotal(cart))} </p>               
             </div>

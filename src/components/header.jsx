@@ -5,11 +5,11 @@ import UserData from "./userData";
 export default function Header(){
     return(
         <header className="w-full h-[100px] bg-accent relative flex items-center justify-center flex-shrink-0" >
-            <Link to="/" className="w-[200px] h-full absolute left-10  flex items-center justify-center ">
-                <img src="/logo.png" alt="Logo" className=" h-[80px] mr-2" />
+            <Link to="/" className="w-[200px] h-full absolute  lg:left-10  flex items-center justify-center ">
+                <img src="/logo.png" alt="Logo" className=" h-[70px] mr-2" />
                 
             </Link>
-            <div className="h-full flex justify-center items-center gap-10">
+            <div className="h-full hidden lg:flex justify-center items-center gap-10">
             
             <Link to="/" className=" text-white text-lg font-semibold ">HOME</Link>
             <Link to="/products" className=" text-white text-lg font-semibold ">Products</Link>
@@ -17,7 +17,7 @@ export default function Header(){
 
             </div>
 
-           <div className="absolute right-10 h-full flex items-center gap-6">
+           <div className="h-[50px] hidden lg:flex absolute right-10  items-center gap-6">
 
                 {/* User Data */}
 
@@ -28,7 +28,7 @@ export default function Header(){
 
                 <Link
                     to="/cart"
-                    className="w-[50px] h-[50px] flex justify-center items-center"
+                    className="w-[50px] h-[50px] hidden lg:flex justify-center items-center"
                 >
                     <BiCart className="text-white text-3xl" />
                 </Link>

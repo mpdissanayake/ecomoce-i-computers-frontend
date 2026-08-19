@@ -22,7 +22,7 @@ useEffect(
     }, [isProductsLoaded]);
 
 return(
-    <div className="w-full h-full flex justify-center flex-wrap">
+    <div className="w-full h-full flex justify-center flex-wrap lg:pb-0 pb-[90px]">
         {
            products.map(
             (item)=>{
@@ -33,6 +33,7 @@ return(
             }
            )
         }
+        <div  className="w-full h-[150]"></div>
 
     </div>
 )
