@@ -1,101 +1,117 @@
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 import { Link, Route, Routes,useNavigate } from "react-router-dom";
+import api from "../utils/api";
+
+
 
 export default function LoginPage(){
 
     const [email,setEmail] = useState("");
     const [password,setPassword ] = useState("");
     const navigate = useNavigate();
+    const googleLogin = useGoogleLogin(
+        {
+            onSuccess:(response)=>{
+                //console.log(response)
+                 // ✅ මෙය හරියට Print වෙන්න ඕන
+            console.log("✅ Google Login Success!");
+            console.log("🔑 Full Response:", response);  // ← මෙතනින් access_token එක පෙන්වයි
+            console.log("📌 Access Token:", response.access_token);  // ← මෙතනින් Token එක පෙන්වයි
+
+            api.post("/users/google-login",{
+                token : response.access_token
+                
+            }).then((response)=>{
+                    localStorage.setItem("token" , response.data.token);
+                    toast.success("Login successful!");
+                    if(response.data.isAdmin){
+                        navigate("/admin")
+                    }else{
+                        navigate("/")
+                    }
+            }).catch(()=>{
+                toast.error("Google login failed")
+            })
+                
+            },
+            onError:()=>{
+                toast.error("Google Login failed")
+            }
+        }
+    )
 
     function handleLogin(){
-        console.log("API URL:", import.meta.env.VITE_API_URL);
+        console.log("Email: ", email);
+        console.log("Password: ", password);
+        //backend localhost:3000/users/login
 
-        console.log("Email:",email);
-        console.log("password: ",password)
-
-        axios.post(`${import.meta.env.VITE_API_URL}/users/login`,{
-            email:email,
+        axios.post(import.meta.env.VITE_API_URL+"/users/login",{
+            email : email,
             password : password
-
         }).then((response)=>{
 
-    console.log("Login Success Full: ", response.data);
-    localStorage.setItem("token", response.data.token);
+            console.log(response.data);
+            localStorage.setItem("token" , response.data.token);
+            //alert("Login successful!");
+            toast.success("Login successful!");
+            if(response.data.isAdmin){
+                //redirect to admin dashboard
+                //window.location.href = "/admin"
+                
+                navigate("/admin")
+            }else{
+                //redirect to homepage
+                //window.location.href = "/"
+                navigate("/")
+            }
 
-    if(response.data.isAdmin){
-
-        //redirect :to admin dashbord
-        //window.location.href="/admin"
-        //alert("Login Successfull")//add alart to browser
-        toast.success("Loging Successful");
-       navigate("/admin");  
-
-    }else{
-        //redirect to homepage
-        //window.location.href="/"
-        navigate("/");
-    }
-     
-
-    }).catch((error)=>{
-
-    console.log("Login failed: ", error);
-    console.log("Error details: ", error.response?.data); // backend එකෙන් එන error message එක
-    toast.error(error.response.data.message)
-})
+        }).catch((error)=>{
+            //alert(error.response.data.message);
+            toast.error(error.response.data.message)
+        });
     }
 
-    return(
-        <div className="w-full h-screen flex justify-center items-center bg-[url('/login-bg.jpg')] bg-center bg-cover bg-no-repeat">
-        <div className="w-0 lg:w-1/2 h-full ">
-        
-        </div>
-
-        <div className="w-[90%] lg:w-1/2 h-full flex justify-center items-center">
-        <div className="w-[400px] h-[700px] backdrop-blur-lg rounded-b-xl shadow-2xl flex flex-col justify-center items-center">
-       <h1 className="text-4xl font-bold mb-8 text-secondary"> Sign in</h1>
-       <input 
-       onChange={
-        (e)=>{
-           setEmail(e.target.value)
-        }
-       }
-       value={email}     
-       type="text"
-            placeholder="Email" 
-            className="w-3/4 p-3 mb-6 rounded-lg border border-gray-400 focus:outline-none focus:ring-2 focus:ring-accent"
-        />
-        <input 
-
-        onChange={
-        (e)=>{
-            setPassword(e.target.value)
-        }
-       }
-        value={password}    
-        type="password" placeholder="Password" 
-        className="w-3/4 p-3  rounded-lg border border-gray-400 focus-outline-none focus:ring-2 focus:ring-accent"
-            /> 
-            <p className="mb-6 w-3/4 text-right text-white">Froget password? <Link to ="/froget-password" className="text-accent hover:underline">Click here</Link></p>
-        
-        <button onClick={handleLogin}
-            className="w-3/4 p-3 mb-6 bg-accent text-white  rounded-lg" >Sign in 
-
-        </button>
-        <p className="w-3/4 text-center text-white">Don't have an account ?<Link to="/register" className="text-accent"> Rgister </Link> </p>
-        </div>
-        
-                
-
-                
-            </div>
-            
-
-        
-
-           
-        </div>
-    )
+	return (
+		<div className="w-full h-screen flex justify-center items-center bg-[url('/login-bg.jpg')] bg-center bg-cover">
+			<div className="w-0 lg:w-1/2  h-full "></div>
+			<div className="w-[90%] lg:w-1/2  h-full  flex justify-center items-center ">
+				<div className="w-[400px] h-[500px] backdrop-blur-lg rounded-xl shadow-2xl flex flex-col justify-center items-center">
+					<h1 className="text-4xl font-bold mb-8 text-secondary">Sign in</h1>
+					<input
+                        onChange={
+                            (e)=>{
+                                setEmail(e.target.value)
+                            }
+                        }
+                        value={email}
+						placeholder="Email"
+						className="w-3/4 p-3 mb-6 rounded-lg border border-gray-400 focus:outline-none focus:ring-2 focus:ring-accent"
+					/>
+					<input    
+                        onChange={
+                            (e)=>{
+                                setPassword(e.target.value)
+                            }
+                        }
+                        value={password}
+						placeholder="Password"
+						type="password"
+						className="w-3/4 p-3  rounded-lg border border-gray-400 focus:outline-none focus:ring-2 focus:ring-accent"
+					/>
+                    <p className="mb-6 w-3/4 text-right text-white">Forget password? <Link to="/forgot-password" className="text-accent">Click here</Link></p>
+                    <button onClick={handleLogin} className="w-3/4 p-3 bg-accent text-white rounded-lg ">
+                        Sign in
+                    </button>
+                    <button onClick={googleLogin}  className="w-3/4 p-3 bg-white text-accenti rounded-lg mt-4 flex justify-center items-center gap-2" >
+                      <FcGoogle /> Sign in with Google
+                    </button>
+                    <p className="mt-6 w-3/4 text-center text-white">Don't have an account? <Link to="/register" className="text-accent">Register</Link></p>
+				</div>
+			</div>
+		</div>
+	);
 }

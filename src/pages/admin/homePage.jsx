@@ -9,6 +9,7 @@ import SettingsPage from "./settings"
 import BottomNavigationBar from "../../components/bottomNavigationBar"
 import NotFoundPage from "./notFoundPage"
 
+
 export default function HomePage(){
 return(
     <div className="w-full min-h-screen flex flex-col ">        
@@ -21,9 +22,11 @@ return(
         <Route path="/overview/:productID" element={<ProductOverviewPage/>} />
         <Route path="/cart" element={<CartPage/>} />
         <Route path="/my-orders" element={<CustomerOrdersPage/>} />
-          <Route path="/settings" element={<SettingsPage/>} />
-         <Route path="/checkout" element={<CheckoutPage/>} />
-         <Route path="/*" element={<NotFoundPage/>} /> 
+        <Route path="/settings" element={<SettingsPage/>} />
+        <Route path="/checkout" element={<CheckoutPage/>} />
+        <Route path="/*" element={<NotFoundPage/>} />
+
+          
 
         </Routes>
         <BottomNavigationBar/>
