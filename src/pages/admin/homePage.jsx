@@ -8,6 +8,7 @@ import CustomerOrdersPage from "./customerMyOrdersPage"
 import SettingsPage from "./settings"
 import BottomNavigationBar from "../../components/bottomNavigationBar"
 import NotFoundPage from "./notFoundPage"
+import LandingPage from "./landingPage"
 
 
 export default function HomePage(){
@@ -16,7 +17,7 @@ return(
        <Header/>
        <div className="w-full h-[calc(100%-100px)] border overflow-y-scroll">
         <Routes>
-        <Route path="/" element={<h1>Home Page</h1>}/>
+        <Route path="/" element={<LandingPage/>}/>
         <Route path="/products" element={<ProductsPage/>}/>
         <Route path="/contact-us" element={<h1>Contact Us Page</h1>}/>
         <Route path="/overview/:productID" element={<ProductOverviewPage/>} />
