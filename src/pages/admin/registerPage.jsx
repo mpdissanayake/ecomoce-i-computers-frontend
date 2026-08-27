@@ -33,6 +33,7 @@ export default function RegisterPage(){
 
     //console.log("Login Success Full: ", response.data);
     toast.success("Rejister Successful")
+
     if(response.data.isAdmin){
     toast.success("Loging Successful");
     navigate("/login");  
@@ -127,7 +128,7 @@ export default function RegisterPage(){
         <button onClick={handleLogin}
             className="w-3/4 p-3 mb-6 bg-accent text-white  rounded-lg" >Sign Up 
         </button>
-        <p className=" w-3/4 text-center text-white">Already have an account ?<Link to="/register" className="text-accent"> Login </Link> </p>
+        <p className=" w-3/4 text-center text-white">Already have an account ?<Link to="/login" className="text-accent"> Login </Link> </p>
         </div>
         
                 
