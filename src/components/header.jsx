@@ -1,41 +1,59 @@
+// src/components/header.jsx
 import { BiCart } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import UserData from "./userData";
 
-export default function Header(){
-    return(
-        <header className="w-full h-[100px] bg-accent relative flex items-center justify-center flex-shrink-0" >
-            <Link to="/" className="w-[200px] h-full absolute  lg:left-10  flex items-center justify-center ">
-                <img src="/logo.png" alt="Logo" className=" h-[70px] mr-2" />
-                
-            </Link>
-            <div className="h-full hidden lg:flex justify-center items-center gap-10">
-            
-            <Link to="/" className=" text-white text-lg font-semibold ">HOME</Link>
-            <Link to="/products" className=" text-white text-lg font-semibold ">Products</Link>
-            <Link to="/contact-us" className=" text-white text-lg font-semibold ">Contact Us</Link>
+export default function Header() {
+  const navItemClass = ({ isActive }) =>
+    `relative py-1 text-sm font-semibold tracking-wide transition-colors duration-200 ${
+      isActive
+        ? "text-white after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-white after:rounded-full"
+        : "text-white/80 hover:text-white"
+    }`;
 
-            </div>
+  return (
+    <header className="w-full h-[88px] bg-accent/95 backdrop-blur-md shadow-md sticky top-0 z-50 flex items-center justify-between px-6 lg:px-12 flex-shrink-0 transition-all">
+      {/* Brand Logo */}
+      <Link to="/" className="flex items-center gap-3 group">
+        <img
+          src="/logo.png"
+          alt="iComputers Logo"
+          className="h-[52px] object-contain transition-transform group-hover:scale-105"
+        />
+      </Link>
 
-           <div className="h-[50px] hidden lg:flex absolute right-10  items-center gap-6">
+      {/* Desktop Main Navigation Links */}
+      <nav className="hidden lg:flex items-center gap-10">
+        <NavLink to="/" className={navItemClass}>
+          HOME
+        </NavLink>
+        <NavLink to="/products" className={navItemClass}>
+          PRODUCTS
+        </NavLink>
+        <NavLink to="/contact-us" className={navItemClass}>
+          CONTACT US
+        </NavLink>
+      </nav>
 
-                {/* User Data */}
+      {/* Desktop Action Icons */}
+      <div className="hidden lg:flex items-center gap-5">
+        {/* User Profile / Status */}
+        <div className="flex items-center">
+          <UserData />
+        </div>
 
-                <UserData />
+        {/* Divider */}
+        <div className="w-[1px] h-6 bg-white/20" />
 
-
-                {/* Cart */}
-
-                <Link
-                    to="/cart"
-                    className="w-[50px] h-[50px] hidden lg:flex justify-center items-center"
-                >
-                    <BiCart className="text-white text-3xl" />
-                </Link>
-
-            </div>
-           
-
-        </header>
-    );
+        {/* Shopping Cart Button */}
+        <Link
+          to="/cart"
+          className="relative p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all duration-200 hover:scale-105 backdrop-blur-sm"
+          title="View Cart"
+        >
+          <BiCart className="text-2xl" />
+        </Link>
+      </div>
+    </header>
+  );
 }
