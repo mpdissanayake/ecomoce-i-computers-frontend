@@ -1,79 +1,103 @@
-import { useEffect, useState } from "react"
-import api from "../pages/utils/api"
-import { Link, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import api from "../pages/utils/api";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function UserData(){
-    
-    const [user,setUser] = useState(null);
-    const navigate = useNavigate();
+export default function UserData() {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(
-        ()=>{
-            const token = localStorage.getItem("token")
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-            if(token){
-                api.get("/users/me" , {
-                    headers :{
-                        "Authorization": `Bearer ${token}`
-                    }
-                })
-                .then((response) => {
-                    //console.log(response.data)
-                    console.log("USER DATA FROM BACKEND:", response.data);
-                    setUser(response.data)
-                }
-                )
-                .catch(error=>{
-                    console.log(error)
+    if (token) {
+      api
+        .get("/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setUser(response.data);
+        })
+        .catch((error) => {
+          console.error("User fetch error:", error);
+        });
+    }
+  }, []);
 
-                })
-            }
-        }
-    ,[])
-    
-    return(
-        <>
-            {
-                user?(
-                <div className="flex h-full aspect-square lg:w-[150px] relative rounded-lg "> 
-                <img src={user.image} referrerPolicy="no-referrer" className="w-full lg:w-auto aspect-square absolute lg:static rounded-lg mr-2"/>
-                <select className=" absolute lg:static text-transparent lg:text-white absolute text-center w-full h-full"
-                onChange={(e)=>{
+  return (
+    <>
+      {user ? (
+        <div className="flex items-center gap-2">
+          {/* Profile Image - Fixed Size & Rounded */}
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/40 shrink-0 bg-white/10 flex items-center justify-center">
+            <img
+              src={
+                user.image ||
+                "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+              }
+              alt={user.firstName}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-                  if (e.target.value === "option2"){
-                        navigate("/settings");
-                    }else if(e.target.value === "option3"){
-                        navigate("/my-orders")
-                    }else if(e.target.value === "option4"){
-                        localStorage.removeItem("token")
-                        navigate("/login")
-                    }
-                    e.target.value = "option1"
+          {/* User Select Menu */}
+          <select
+            className="bg-transparent text-white font-medium text-sm focus:outline-none cursor-pointer pr-1"
+            onChange={(e) => {
+              if (e.target.value === "settings") {
+                navigate("/settings");
+              } else if (e.target.value === "orders") {
+                navigate("/my-orders");
+              } else if (e.target.value === "admin") {
+                navigate("/admin");
+              } else if (e.target.value === "logout") {
+                localStorage.removeItem("token");
+                setUser(null);
+                navigate("/login");
+              }
+              e.target.value = "default";
+            }}
+            defaultValue="default"
+          >
+            <option value="default" className="bg-gray-800 text-white" disabled>
+              {user.firstName}
+            </option>
 
-                }}
-
-                    defaultValue="option1"
-                >
-
-                <option value="option1" className="bg-secondary text-white">{user.firstName} </option>
-                <option value="option2" className="bg-secondary  text-white">Settings</option>
-                <option value="option3" className="bg-secondary text-white">My Orders </option>
-                <option value="option4" className="bg-secondary text-white">Logout</option>
-                
-                </select>  
-                
-                </div>  
-
-                ):(
-                <>
-                <Link to="/login" className="h-full aspect-square flex justify-center rounded-lg text-accent shadow-2xl shadow-accent text-3xl">LOGIN</Link>
-                 <Link to="/register" className=" text-white text-lg font-semibold hidden lg:block mr-4 ">Register</Link>
-                
-                </>
+            {user.isAdmin && (
+              <option value="admin" className="bg-gray-800 text-white">
+                Admin Panel
+              </option>
             )}
 
-        </>
-       
-    )
-
+            <option value="orders" className="bg-gray-800 text-white">
+              My Orders
+            </option>
+            <option value="settings" className="bg-gray-800 text-white">
+              Settings
+            </option>
+            <option value="logout" className="bg-gray-800 text-red-400 font-semibold">
+              Logout
+            </option>
+          </select>
+        </div>
+      ) : (
+        <div className="flex items-center gap-3">
+          <Link
+            to="/login"
+            className="px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-semibold transition border border-white/20"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="hidden lg:block text-white/80 hover:text-white text-sm font-semibold transition"
+          >
+            Register
+          </Link>
+        </div>
+      )}
+    </>
+  );
 }
